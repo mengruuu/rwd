@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            /* border: 1px solid black; */
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        :root {  /* 根元素，同於html，有優先權*/
+            /* font-size: 10px; */  /* 10px */
+            --header-height: 60px;  /* --變數名稱 => css的宣告變數語法*/
+            --aside-width: 240px;
+        }
+
+        /* ====================hamburger==================== */
+        button.btn_hamburger {
+            display: none;
+        }
+
+        @media (max-width: 767.98px) {
+            button.btn_hamburger {
+                display: inline-block;
+            }
+        }
+
+        /* ====================header==================== */
+        header.header {
+            border: 1px solid red;
+            width: 100%;
+            height: var(--header-height);  /* 善用上方宣告的變數 */
+            background-color: lightgrey;
+            position: sticky;  /* sticky | fixed 都可以*/  /*==注意== fixed不會佔住位子*/
+            top: 0;  /* sticky搭配 top:0; 使用，到達頂點0 的時候固定住*/
+        }
+
+        /* ====================aside==================== */
+        aside.aside {
+            border: 1px solid blue;
+            position: fixed;  /* fixed才不會占住空間位子 */
+            background-color: #fee094;
+            left: 0;
+            top: var(--header-height);  /* 善用上方宣告的變數 */
+            width: var(--aside-width);  /* 善用上方宣告的變數 */
+            height: calc(100% - var(--header-height));
+            overflow-y: auto;  /* 卷軸 */
+            padding: 20px 0;
+
+            /* 讓瀏覽器自動判斷有轉場效果的屬性 */
+            transition: all 1s; 
+        }
+
+        @media (max-width: 767.98px) {
+            aside.aside {
+                top: 0;
+                height: 100%;
+                transform: translateX(-100%);
+            }
+            aside.aside.-on{
+                transform: translateX(0%);
+            }
+        }
+
+        /* aside.aside nav.nav{
+            border: 1px solid black;
+        } */
+
+        aside.aside nav.nav ul.nav_list {
+            /* border: 1px solid purple; */
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* aside.aside nav.nav ul.nav_list > li {
+            border:  1px solid green;
+        } */
+
+        aside.aside nav.nav ul.nav_list>li>a {
+            /* border: 1px solid blue; */
+            display: block;
+            text-decoration: none;
+            text-align: center;
+            padding: 5px 0;
+            position: relative;
+        }
+
+        aside.aside nav.nav ul.nav_list>li>a::after {
+            content: "";
+            /* border: 1px solid red; */
+            position: absolute;  /* 定位在父元素左下角 */
+            left: 50%;
+            bottom: 0;
+            width: 80%;
+            transform: translateX(-50%);
+            background-color: red;
+            height: 1px;
+        }
+
+        aside.aside nav.nav ul.nav_list>li:last-child>a::after {
+            display: none;
+        }
+
+        /* ====================main==================== */
+        main.main {
+            border: 1px solid green;
+            /* height: 1000px; */
+            width: calc(100% - var(--aside-width));
+            margin-left: var(--aside-width);
+            background-color: lightskyblue;
+            min-height: calc(100vh - var(--header-height));  /* 100vh 等同於螢幕高度*/
+            padding: 20px;
+
+            /* 讓瀏覽器自動判斷有轉場效果的屬性 */
+            transition: all 1s; 
+        }
+
+        @media (max-width: 767.98px){
+            main.main{
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+
+        main.main ul.item_list {
+            border: 1px solid green;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        main.main ul.item_list > li {
+            border: 1px solid red;
+            width: calc((100% - 60px)/4);
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 767.98px){
+            main.main ul.item_list > li{
+                width: calc((100% - 20px)/2);
+            }
+        }
+        
+        main.main ul.item_list>li:nth-child(4n) {  /* n從0開始帶 */
+            margin-right: 0px;
+        }
+        
+        @media (max-width: 767.98px){
+            main.main ul.item_list>li:nth-child(2n){
+                margin-right: 0px;
+            } 
+        }
+
+        main.main ul.item_list>li>a {
+            border: 1px solid blue;
+            display: block;
+            text-decoration: none;
+        }
+
+        main.main ul.item_list>li>a div.img_block {
+            border: 1px solid orange;
+            font-size: 0;
+        }
+
+        main.main ul.item_list>li>a span.item_text {
+            border: 1px solid blue;
+            display: block;
+            white-space: nowrap;  /* 不斷行 */
+            overflow: hidden;
+            text-overflow: ellipsis;  /* 省略符號 */
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <button type="button" class="btn_hamburger">按鈕</button>這是header
+    </header>
+
+    <aside class="aside">
+
+        <nav class="nav">
+            <button type="button" class="btn_hamburger">按鈕</button>
+            <ul class="nav_list">
+                <li><a href="#">連結一</a></li>
+                <li><a href="#">連結二</a></li>
+                <li><a href="#">連結三</a></li>
+                <li><a href="#">連結四</a></li>
+                <li><a href="#">連結五</a></li>
+                <li><a href="#">連結一</a></li>
+                <li><a href="#">連結二</a></li>
+                <li><a href="#">連結三</a></li>
+                <li><a href="#">連結四</a></li>
+                <li><a href="#">連結五</a></li>
+                <li><a href="#">連結一</a></li>
+                <li><a href="#">連結二</a></li>
+                <li><a href="#">連結三</a></li>
+                <li><a href="#">連結四</a></li>
+                <li><a href="#">連結五</a></li>
+                <li><a href="#">連結一</a></li>
+                <li><a href="#">連結二</a></li>
+                <li><a href="#">連結三</a></li>
+                <li><a href="#">連結四</a></li>
+                <li><a href="#">連結五</a></li>
+                <li><a href="#">連結一</a></li>
+                <li><a href="#">連結二</a></li>
+                <li><a href="#">連結三</a></li>
+                <li><a href="#">連結四</a></li>
+                <li><a href="#">連結五</a></li>
+                <li><a href="#">連結一</a></li>
+                <li><a href="#">連結二</a></li>
+                <li><a href="#">連結三</a></li>
+                <li><a href="#">連結四</a></li>
+                <li><a href="#">連結五</a></li>
+                <li><a href="#">連結一</a></li>
+                <li><a href="#">連結二</a></li>
+                <li><a href="#">連結三</a></li>
+                <li><a href="#">連結四</a></li>
+                <li><a href="#">哈囉這是最後一個ㄌ</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main">
+
+        <ul class="item_list">
+            <li>
+                <a href="#">
+                    <div class="img_block">
+                        <img src="https://via.placeholder.com/400x300">
+                    </div>
+                    <span class="item_text">1這是影片標題這是影片標題這是影片標題這是影片標題這是影片標題</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <div class="img_block">
+                        <img src="https://via.placeholder.com/400x300">
+                    </div>
+                    <span class="item_text">2這是影片標題這是影片標題這是影片標題這是影片標題這是影片標題</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <div class="img_block">
+                        <img src="https://via.placeholder.com/400x300">
+                    </div>
+                    <span class="item_text">3這是影片標題這是影片標題這是影片標題這是影片標題這是影片標題</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <div class="img_block">
+                        <img src="https://via.placeholder.com/400x300">
+                    </div>
+                    <span class="item_text">4這是影片標題這是影片標題這是影片標題這是影片標題這是影片標題</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <div class="img_block">
+                        <img src="https://via.placeholder.com/400x300">
+                    </div>
+                    <span class="item_text">5這是影片標題這是影片標題這是影片標題這是影片標題這是影片標題</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <div class="img_block">
+                        <img src="https://via.placeholder.com/400x300">
+                    </div>
+                    <span class="item_text">6這是影片標題這是影片標題這是影片標題這是影片標題這是影片標題</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <div class="img_block">
+                        <img src="https://via.placeholder.com/400x300">
+                    </div>
+                    <span class="item_text">7這是影片標題這是影片標題這是影片標題這是影片標題這是影片標題</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <div class="img_block">
+                        <img src="https://via.placeholder.com/400x300">
+                    </div>
+                    <span class="item_text">8這是影片標題這是影片標題這是影片標題這是影片標題這是影片標題</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <div class="img_block">
+                        <img src="https://via.placeholder.com/400x300">
+                    </div>
+                    <span class="item_text">9這是影片標題這是影片標題這是影片標題這是影片標題這是影片標題</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <div class="img_block">
+                        <img src="https://via.placeholder.com/400x300">
+                    </div>
+                    <span class="item_text">10這是影片標題這是影片標題這是影片標題這是影片標題這是影片標題這是影片標題這是影片標題這是影片標題</span>
+                </a>
+            </li>
+        </ul>
+
+    </main>
+
+    <!-- 先載入jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+
+        // JavaScript 寫法
+        // var btn_el = document.getElementsByClassName("btn_hamburger");
+        // for( let i=0; i<btn_el.length; i++){
+        //     btn_el[i].addEventListener("click", function(){
+        //         // console.log("test")
+                
+        //         let aside_el = document.getElementsByClassName("aside")[0];
+        //         aside_el.classList.toggle("-on");
+        //     });
+        // }
+
+
+
+        // jQuery 寫法
+        $("button.btn_hamburger").on("click", function(){
+            $("aside.aside").toggleClass("-on");
+        });
+    </script>
+</body>
+
+</html>
